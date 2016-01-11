@@ -69,15 +69,15 @@ stylus:
 # Deployment
 ## Docs: http://hexo.io/docs/deployment.html
 
-#deploy:
-#  type: git
-#  repository: https://github.com/wx962464/wx962464.github.io.git
-#  branch: master
-
 deploy:
   type: git
-  repository: https://gitcafe.com/wx962464/wx962464.git
-  branch: gitcafe-pages
+  repository: https://github.com/wx962464/wx962464.github.io.git
+  branch: master
+
+#deploy:
+#  type: git
+#  repository: https://gitcafe.com/wx962464/wx962464.git
+#  branch: gitcafe-pages
 
 #CNAME
 plugins:
