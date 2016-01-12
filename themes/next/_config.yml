@@ -41,6 +41,9 @@ links:
   极客公园: http://gank.io/
   算法之道: http://blog.csdn.net/v_JULY_v
 
+duoshuo_hotartical: true
+
+duoshuo_share: true
 # Place your favicon.ico to /source directory.
 favicon: /favicon.ico
 
@@ -120,6 +123,8 @@ duoshuo_info:
 duoshuo_shortname: wxtlife
 
 baidu_analytics: 7d272d9330be51e03a9485500a86f593
+google_analytics: UA-72326106-1
+
 # Facebook SDK Support.
 # https://github.com/iissnan/hexo-theme-next/pull/410
 facebook_sdk:
