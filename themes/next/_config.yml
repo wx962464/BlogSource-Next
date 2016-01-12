@@ -31,7 +31,6 @@ description: 当你的成功欲望足以和呼吸的欲望相媲美的时候你�
 social:
   github: https://github.com/wx962464
   weibo: http://weibo.com/wx962464
-  zhihu: http://www.zhihu.com/wx962464
 
 links_title: 友情链接
 links:
@@ -40,6 +39,9 @@ links:
   鸿洋Android: http://blog.csdn.net/lmj623565791
   极客公园: http://gank.io/
   算法之道: http://blog.csdn.net/v_JULY_v
+  深入Anroid系统: http://blog.csdn.net/innost
+  双龙IOS: http://www.enkichen.com/
+  华润IOS: http://www.devhua.com/
 
 duoshuo_hotartical: true
 
@@ -122,7 +124,6 @@ duoshuo_info:
 
 duoshuo_shortname: wxtlife
 
-baidu_analytics: 7d272d9330be51e03a9485500a86f593
 google_analytics: UA-72326106-1
 
 # Facebook SDK Support.
