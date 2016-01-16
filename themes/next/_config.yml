@@ -3,8 +3,9 @@ menu:
   home: /
  # categories: /categories
   archives: /archives
-  about: /about
+  categories: /categories
   tags: /tags
+  about: /about
   commonweal: /404.html
 
 

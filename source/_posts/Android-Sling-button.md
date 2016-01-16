@@ -1,15 +1,17 @@
-title: "滑动按钮（Sliding Button）实现"
-date: 2015-04-06 12:12:54
-tags: Android
+title: "滑动按钮（Sliding Button）实现"  
+date: 2015-04-06 12:12:54  
+categories: Android  
+tags: [Android UI] 
 ---
-# 欢迎访问 [wxtlife.com](http://www.wxtlife.com)
-滑动控件在我们的应用中还是比较常见的，比如锁屏的那个滑动效果，偶尔也会使用到滑动清除功能等，滑动到末端触发的一些事情。下面就说说这个要怎么实现它呢，看完你会觉得原来如此简单，代码也不多。
-    首先来看看效果图：
-    ![SlidingButton](/img/sliding_button.jpg)
-首先得有个滑块，然后要限定滑块的滑动位置，这两个元素就够我们实现一个滑动的效果了，那么滑动要怎么移动呢？这就是本文的核心点了。当然采用自定义view的方式来实现啦。
-<!-- more --> 
-    要实现view的移动，那么我们就得知道view到底移动了多少，向左还是向右，看到这，那就必须监听view的onTouch事件了，所以ontouch 事件的处理才是核心的核心。ontouch事件可以告诉view偏移多少，然后将view移动多少就可以实时的变化了，view的移动采用设置`LayoutParams的leftMargin`来实现。下面看看核心代码是如何写的。
-    我们继承ImageButton来实现，` class SlidingButton extends ImageButton`
+
+滑动控件在我们的应用中还是比较常见的，比如锁屏的那个滑动效果，偶尔也会使用到滑动清除功能等，滑动到末端触发的一些事情。下面就说说这个要怎么实现它呢，看完你会觉得原来如此简单，代码也不多。  
+首先来看看效果图：   
+![SlidingButton](/img/sliding_button.jpg)  
+首先得有个滑块，然后要限定滑块的滑动位置，这两个元素就够我们实现一个滑动的效果了，那么滑动要怎么移动呢？这就是本文的核心点了。当然采用自定义view的方式来实现啦。  
+<!-- more -->   
+要实现view的移动，那么我们就得知道view到底移动了多少，向左还是向右，看到这，那就必须监听view的onTouch事件了，所以ontouch 事件的处理才是核心的核心。ontouch事件可以告诉view偏移多少，然后将view移动多少就可以实时的变化了，view的移动采用设置`LayoutParams的leftMargin`来实现。下面看看核心代码是如何写的。
+    我们继承ImageButton来实现，
+    ` class SlidingButton extends ImageButton`
         
 ```java
  //我们继承ImageButton，然后重写Ontouch事件。
@@ -88,5 +90,3 @@ tags: Android
 Demo 下载地址：[http://download.csdn.net/detail/wx_962464/8567499](http://download.csdn.net/detail/wx_962464/8567499)
 
 这样核心的都在代码里面已经注释了，不懂的可以留言。
-
-## 欢迎访问 [wxtlife.com](http://wxtlife.com)

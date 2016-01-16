@@ -1,25 +1,30 @@
 title: "Linux 多硬盘开机自动挂载"
 date: 2015-05-04 22:24:46
+categories: Linux
 tags: Linux
 ---
-# 欢迎访问 [wxtlife.com](http://www.wxtlife.com)
-在Linux系统上使用多个固态硬盘的时候，默认只挂载系统盘，要想使用其他盘，我们需要挂载硬盘，下面就简单介绍下，我在挂载新硬盘的操作方法。
-1.  查看系统中的未挂载的硬盘    
-    `sudo hdparm -I /dev/sdb`      硬盘硬件安装后，此命令测试linux系统是否能找到挂载的未分区硬盘。 
-2.  由于我们这里不需要分区，所以就不用分区的操作了。
+
+在Linux系统上使用多个固态硬盘的时候，默认只挂载系统盘，要想使用其他盘，我们需要挂载硬盘，下面就简单介绍下，我在挂载新硬盘的操作方法。  
+###  查看系统中的未挂载的硬盘    
+`sudo hdparm -I /dev/sdb`      硬盘硬件安装后，此命令测试linux系统是否能找到挂载的未分区硬盘。 
+### 硬盘分区
+由于我们这里不需要分区，所以就不用分区的操作了。
 <!-- more --> 
-3.  格式化硬盘
-    使用命令`sudo mkfs -t ext3 /dev/sdb1 ` /dev/sdb1 为新硬盘在linux上的描述符。上面创建的新硬盘分区格式化为ext3格式，这个要等一会才能自动结束。
-4.  设置新硬盘的卷标
-    `sudo e2label /dev/sdb1 /code ` /code 为在/dev/sdb1新硬盘根目录下面起的名字
-5.  设置挂载点
-    `sudo mkdir /code `  //在根路径下创建挂载点  
-6.  设置开机自动挂载
-    使用命令`sudo vim /etc/fstab `编辑文件，文件的配置列表如下：
-	```
-    file system   mount point   type  options  dump  pass 
-         a             b         c       d      e     f    
-	```
+
+###  格式化硬盘
+使用命令`sudo mkfs -t ext3 /dev/sdb1 ` /dev/sdb1 为新硬盘在linux上的描述符。上面创建的新硬盘分区格式化为ext3格式，这个要等一会才能自动结束。
+###  设置新硬盘的卷标
+`sudo e2label /dev/sdb1 /code ` /code 为在/dev/sdb1新硬盘根目录下面起的名字
+###  设置挂载点
+`sudo mkdir /code `  //在根路径下创建挂载点  
+###  设置开机自动挂载
+
+使用命令`sudo vim /etc/fstab `编辑文件，文件的配置列表如下：
+
+```
+file system   mount point   type  options  dump  pass 
+     a             b         c       d      e     f    
+```
 - a	指代文件系统的设备名。最初，该字段只包含待挂载分区的设备名（如/dev/sda1）。现在，除设备名外，还可以包含LABEL或UUID
 - b	文件系统挂载点。文件系统包含挂载点下整个目录树结构里的所有数据，除非其中某个目录又挂载了另一个文件系统
 - c	文件系统类型。下面是多数常见文件系统类型（ext3,tmpfs,devpts,sysfs,proc,swap,vfat）
@@ -31,20 +36,18 @@ tags: Linux
 `/dev/sdb1     /code      ext3      defaults      1      2  ` /dev/sdb1 为硬盘的标识符
 然后记得保存下文件。
 
-7.  重启查看是否挂载成功
-    使用`df -h`命令查看分区空间使用情况，就可以看到/code已经自动挂载。查看的结果如下：
+### 重启查看是否挂载成功
+使用`df -h`命令查看分区空间使用情况，就可以看到/code已经自动挂载。查看的结果如下：
 
-    ```
-    Filesystem            Size  Used Avail Use% Mounted on   
-    /dev/sda1             139G  121G   12G  92% /
-    varrun                1.3G   68K  1.3G   1% /var/run
-    varlock               1.3G     0  1.3G   0% /var/lock
-    udev                  1.3G   32K  1.3G   1% /dev
-    devshm                1.3G     0  1.3G   0% /dev/shm  
-    /dev/sdb1             924G   11G  867G   2% /code
-    ```
+```
+Filesystem            Size  Used Avail Use% Mounted on   
+/dev/sda1             139G  121G   12G  92% /
+varrun                1.3G   68K  1.3G   1% /var/run
+varlock               1.3G     0  1.3G   0% /var/lock
+udev                  1.3G   32K  1.3G   1% /dev
+devshm                1.3G     0  1.3G   0% /dev/shm  
+/dev/sdb1             924G   11G  867G   2% /code
+```
 看到我们的/code 已经挂在上，则已经大功告成！
 
 参考地址[http://www.cnblogs.com/avril/archive/2010/03/23/1692783.html](http://www.cnblogs.com/avril/archive/2010/03/23/1692783.html)
-
-## 欢迎访问 [wxtlife.com](http://www.wxtlife.com)

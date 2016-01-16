@@ -1,8 +1,9 @@
 title: "Hexo 使用中遇到的问题总结"
 date: 2015-03-24 22:53:13
-tags: hexo
+categories: Hexo
+tags: Hexo
 ---
-# 欢迎访问 [wxtlife.com](http://www.wxtlife.com)
+
 1.  安装NoteJs，出现问题，安装到最后提示`error 52**`
     过程：重新下载安装了几次都不行，不懂为什么，最后通过Hexo的文档提供下载地址进行下载，然后安装问题就没有出现了。
     
@@ -42,5 +43,3 @@ tags: hexo
     在Hexo 3.0 后server被单独出来了，需要安装server，安装的命令如下：`npm install hexo-server --save` 安装此server后再试，问题解决。
 
 以上就是我在这几天使用Hexo的一些问题，当然问题列的不够详细，只是一个大致思路，这些也是凭着自己的印象做的笔记，所以有些错误的地方希望大家指出，共同学习，共同进步！
-
-## 欢迎访问 [wxtlife.com](http://www.wxtlife.com)

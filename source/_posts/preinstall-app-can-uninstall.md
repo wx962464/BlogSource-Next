@@ -1,14 +1,15 @@
 title: Android系统预制可自由卸载apk
 date: 2016-01-08 22:03:56
-tags: Android Android系统
+categories: Android系统
+tags: [Android,Android系统]
 ---
 在我们都痛恨手机厂商预装着一堆无用的app时，是否考虑怎么实现将app预装在data区，让用户可以自由卸载，做一个有良心的厂商，下面就把来说说如何实现预装app能够让用户卸载。
-### 1. 系统识别的app位置  
+### 系统识别的app位置  
 系统能够识别到app的位置有三个，分别是`/system/app/`,`/system/priv-app` `/data/app/` 下面。但是只有`/data/app`下面的app才可以被用户可以卸载。那就得想办法将apk放在`/data/app`下面。
-### 2. 尝试将预装app放进升级包data区中
+### 尝试将预装app放进升级包data区中
 根据编译的情况知道，一般在源码下编译的应用都会被放在`out/targe/.../system/app`或者`out/targe/.../system/priv-app`下面，用户区是在/data/app/ ，如果在编译后打包前copy某个app到/data/app/下面，且打包的系统img是只会在system区起作用，在data区是不起作用的。所以这种方案不行，只能将app放在system区的文件中了。
 	
-### 3. 在编译时预制到系统system目录中
+### 在编译时预制到系统system目录中
 先将放在系统编译到某个目录下面，我这边放在`android/kk-4.x/device/mtk/mtk/preinstall/apk`下面，由于现在使用的平台为mtk所以放在mtk下面，preinstall为自己创建的文件夹，以及子目录apk，然后将所有app放在此目录下，当然这样是不能被打包到系统目录的，然后在preinstall目录下面创建一个`preinstall.mk`文件，当然名字随便了，里面的主要功能就是copy预装的app到系统分区目录中。  
 <!-- more -->   
 主要内容如下：
@@ -27,8 +28,8 @@ endef
 #copy apk files to /system/user/app/
 #调用函数，将已apk后缀的copy到目标位置
 COPY_APK_TARGET := $(call                                                 all-data-files-under,apk,*.apk)
-PRODUCT_COPY_FILES += $(foreach apkName,                  $(COPY_APK_TARGET), \
-$(addprefix $(LOCAL_PATH)/apk/, $(apkName)):$(addprefix           system/usr/app/, $(apkName)))
+PRODUCT_COPY_FILES += $(foreach apkName, (COPY_APK_TARGET), \
+$(addprefix $(LOCAL_PATH)/apk/, $(apkName)):$(addprefix system/usr/app/, $(apkName)))
 ```
 `PRODUCT_COPY_FILES`为Android系统提供的一个copy机制。但是默认是不允许copy apk的，它建议我们用pre_build来替代copy apk方式，但是pre_build的方式在多个应用情况下就会比较麻烦。那就直接修改`Makefile`文件，将其禁止copy的警告校验去掉即可。在`build/core/Makefile`中定义了一个函数如下：
 
@@ -57,7 +58,7 @@ $(call inherit-product-if-exists, frameworks/webview/chromium/chromium.mk)
 $(call inherit-product, $(SRC_TARGET_DIR)/product/core.mk)
 ```
 上面的就是调用加载其他的mk文件，第一行就为加载自己添加的mk文件如果存在(路径为前面自己定义的)，这样在编译的时候就会执行定义的mk，也就是把预制的app全部copy到系统的指定目录下面。
-### 5. 将系统中的app放到data区的app中
+### 将系统中的app放到data区的app中
 前面的操作步骤已经能够将预制的app打包进系统包中，但是系统上那些app还是在system区的，并不能在data区，那么就要想在用户第一次使用的情况下将app`复制`到data区的app安装位置，，且不能让用户有察觉。
 > **注意：**上面提到的是复制，原因是如果是移动的话，源文件会没有，当用户恢复出厂设置的时候，data区app会没有，重新启动后，系统里面要复制的app也不存在了，则预装的app也就无法安装了，相当于恢复出厂后有漏洞了。
 
@@ -88,11 +89,12 @@ if [ -z "${PREINSTALL_RESULT}" ]; then
         #设置标记位
         setprop persist.sys.preinstall.value 1
         cd ../..
+fi       
 ```
 注意上面开头为`#!/sbin/sh`这个要根据系统的sh位置来进行确认，为了实现首次安装所以需要用到一个标记，这里采用系统的property来做标记，在复制时使用`busybox cp`是因为好多shell被Android系统精简了，还有copy完成后记得修改应用的权限，避免权限不够而知无法安装的问题，所有都copy完成后将标记为修改了，避免下次还会执行此操作。
 
 另外一种方法就是单独一个app，在系统起来后进行首次的app转移。这种就是实际上已经进入到launcher界面了，如果开机广播慢的话，用户就会察觉到怎么突然多了几个应用，体验很不好。
-### 6. shell如何放入系统
+### shell如何放入系统
 此方法基本和前面写好的preinstall.mk复制应用方法 一致，也是在`generic_no_telephony.mk`中用Android自带的`PRODUCT_COPY_FILES`来将shell脚本copy进系统的bin文件下，然后在需要的时候进行执行。
 
 ```shell    
@@ -101,9 +103,10 @@ PRODUCT_COPY_FILES += \
 ```
 上面目的就是将脚本copy至系统的bin目录下。这样我们准备的东西都已经就绪了，下面就是如何让这些脚本运作起来。
 
-### 7. 如何执行shell脚本
+### 如何执行shell脚本
 前面提到利用Android启动时的初始化脚本也就是init.rc 进行处理，前面也有[文章](http://www.wxtlife.com/2015/11/24/Android-set-adb-status/)是用到init.rc来开发一些功能的，这里还是在说下
 首先定义一个service,并且执行这个服务的名字，以及服务执行的脚本，对于init.rc的语言大家可以参考网上的，对此不是很熟悉。
+
 ```
 service preinstall /system/bin/preinstall.sh
         class main
