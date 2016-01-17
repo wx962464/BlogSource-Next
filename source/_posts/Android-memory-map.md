@@ -82,7 +82,7 @@ mFlag = yoffset + 1;
 ```
 想访问标记为mFlag的值，则使用`*mFlag`则可以进行赋值以及取值。所以在c++层的读取赋值就这么简单的完成了，主要是对函数的参数要了解。
 
-### Android上层访问标号位
+### Android应用读写指定内存值
 由于下层已经是把文件映射到内存中的，所以上层也可以直接文件读到内存中，然后读取相应位的值就可以了，也比较简单。  
 直接看下代码：
 
@@ -92,7 +92,7 @@ private void initMemoryMap() {
 		if (memoryMap == null) {
 			RandomAccessFile raf = null;
 			try {
-			// 和前面c++映射的文件名一致。
+				// 和前面c++映射的文件名一致。
 				raf = new RandomAccessFile("/tmp/memory_map", "rw");
 				FileChannel fc = raf.getChannel();
 				memoryMap = fc.map(FileChannel.MapMode.READ_WRITE, 0, 16);
