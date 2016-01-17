@@ -43,7 +43,7 @@ endef
 上面的脚本为Makefile的一些用法，可以参考网上[Makefile总结](http://www.cnblogs.com/wang_yb/p/3990952.html) 
 **此方法的弊端就是系统包会因为app的数量及大小而增大。**
 
-### 4. 如何在系统中加载preinstall.mk
+### 如何在系统中加载preinstall.mk
 这里参考其他Mk调用的方式来实现。一般增加一个编译源码下的应用到系统，默认都会在`build/target/product`下面的`generic_no_telephony.mk`中的`PRODUCT_PACKAGES`添加应用名称，当然不同厂商可能目录位置不同。
 在这个文件中有加载很多mk的代码，所以照着加载之前mk的写法，
 
