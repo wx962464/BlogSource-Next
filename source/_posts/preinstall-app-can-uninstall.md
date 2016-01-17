@@ -14,7 +14,7 @@ tags: [Android,Android系统]
 <!-- more -->   
 主要内容如下：
 
-``` 
+```Makefile
 ###################################################
 #Copy proprietary apk to system/usr/app
 ###################################################
@@ -33,7 +33,7 @@ $(addprefix $(LOCAL_PATH)/apk/, $(apkName)):$(addprefix system/usr/app/, $(apkNa
 ```
 `PRODUCT_COPY_FILES`为Android系统提供的一个copy机制。但是默认是不允许copy apk的，它建议我们用pre_build来替代copy apk方式，但是pre_build的方式在多个应用情况下就会比较麻烦。那就直接修改`Makefile`文件，将其禁止copy的警告校验去掉即可。在`build/core/Makefile`中定义了一个函数如下：
 
-```
+```Makefile
 define check-product-copy-files
 $(if $(filter %.apk, $(1)),$(error \
     Prebuilt apk found in PRODUCT_COPY_FILES: $(1), use BUILD_PREBUILT instead!))
@@ -47,7 +47,7 @@ endef
 这里参考其他Mk调用的方式来实现。一般增加一个编译源码下的应用到系统，默认都会在`build/target/product`下面的`generic_no_telephony.mk`中的`PRODUCT_PACKAGES`添加应用名称，当然不同厂商可能目录位置不同。
 在这个文件中有加载很多mk的代码，所以照着加载之前mk的写法，
 
-```
+```Makefile
 $(call inherit-product-if-exists, device/mtk/mtk/preinstall/preinstall.mk)
 $(call inherit-product-if-exists, frameworks/base/data/fonts/fonts.mk)
 $(call inherit-product-if-exists, external/noto-fonts/fonts.mk)
@@ -65,7 +65,7 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/core.mk)
 下面就是如何复制到data区的问题了，我们主要利用shell脚本来做应用复制，在配合上系统的init.rc初始化来做，因为方便快捷。当然也有其他方法，但不是最佳，等会会说。
 现说怎么实现首次copy应用到data区，下面就是主要是shell脚本了。
 
-```
+```Bash
 #!/sbin/sh
 CUSTOMIZED_APK=/system/usr/app
 DATA_APK=/data/app
@@ -97,7 +97,7 @@ fi
 ### shell如何放入系统
 此方法基本和前面写好的preinstall.mk复制应用方法 一致，也是在`generic_no_telephony.mk`中用Android自带的`PRODUCT_COPY_FILES`来将shell脚本copy进系统的bin文件下，然后在需要的时候进行执行。
 
-```shell    
+```Makefile   
 PRODUCT_COPY_FILES += \
     device/mtk/mtk/preinstall/preinstall.sh:/system/bin/preintall.sh
 ```
@@ -107,7 +107,7 @@ PRODUCT_COPY_FILES += \
 前面提到利用Android启动时的初始化脚本也就是init.rc 进行处理，前面也有[文章](http://www.wxtlife.com/2015/11/24/Android-set-adb-status/)是用到init.rc来开发一些功能的，这里还是在说下
 首先定义一个service,并且执行这个服务的名字，以及服务执行的脚本，对于init.rc的语言大家可以参考网上的，对此不是很熟悉。
 
-```
+```Makefile
 service preinstall /system/bin/preinstall.sh
         class main
         user root
