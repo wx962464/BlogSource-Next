@@ -14,10 +14,10 @@ C++已经很久没有接触了，好多都已经还给老师了。（忧伤。�
 头文件：#include <sys/types.h>    #include <sys/stat.h>    #include <fcntl.h>
 函数定义：
 
- ```
+```c
 int open(const char * pathname, int flags);
-int open(const char * pathname, int flags, mode_t     mode);
- ```
+int open(const char * pathname, int flags, mode_t mode);
+```
 **函数说明**：  
 
 * **参数 pathname**： 指向欲打开的文件路径字符串.   
