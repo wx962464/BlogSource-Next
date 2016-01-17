@@ -23,6 +23,7 @@ int open(const char * pathname, int flags, mode_t     mode);
 * **参数 pathname**： 指向欲打开的文件路径字符串.   
 * **参数flags**  所能使用的标志，想读写权限，是否新建等。
 * **参数mode_tmodel** 主要文件权限，只有新建文件才有效。
+
 参考地址：[http://c.biancheng.net/cpp/html/238.html](http://c.biancheng.net/cpp/html/238.html)
 
 ##### C++ mmap函数介绍
