@@ -37,6 +37,12 @@ tags: [Android,Linux]
    - 重新启动samba服务，命令`sudo service smbd start (ubuntu 10.4)` 或者`sudo service samba restart (ubuntu 12.04`
    
    **安装samba参考** [http://jingyan.baidu.com/article/00a07f38b9194082d028dc08.html](http://jingyan.baidu.com/article/00a07f38b9194082d028dc08.html)    
+
+>  提示，创建用户如下所示：  
+
+	添加账户：useradd -r -m -s /bin/bash username  
+	修改密码：sudo passwd username 
+
    <!-- more --> 
    
 ### **ssh的安装与配置**
