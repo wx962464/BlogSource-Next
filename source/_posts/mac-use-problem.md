@@ -49,3 +49,6 @@ Mac系统的环境变量，加载顺序为：
 `defaults write com.apple.finder _FXShowPosixPathInTitle -bool TRUE;killall Finder`
 * **隐藏完整文件路径**
 `defaults delete com.apple.finder _FXShowPosixPathInTitle;killall Finder `
+
+### mac 连接samba不在服务器端生成.DS_Store文件
+在Terminal下输入`defaults write com.apple.desktopservices DSDontWriteNetworkStores true` 就可以了。
