@@ -1,6 +1,6 @@
 title: 详解https是如何确保安全的？  
 date: 2016-03-27 22:57:18  
-tags: [网络,Https,对称加密,非对称加密,SSL/TSL]
+tags: [网络,Https,对称加密,非对称加密,SSL/TLS]
 ---
 # Https 介绍
 ## 什么是Https
@@ -12,19 +12,20 @@ tags: [网络,Https,对称加密,非对称加密,SSL/TSL]
 - **数据完整性** 防止内容被第三方冒充或者篡改
 
 ## Https的劣势
-- 对数据进行加解密决定了它比http慢
-> 需要进行非对称的加解密，且需要三次握手。
-- https禁用了缓存
+- 对数据进行加解密决定了它比http慢 
+> 需要进行非对称的加解密，且需要三次握手。首次连接比较慢点，当然现在也有很多的优化。
+
+> 出于安全考虑，浏览器不会在本地保存HTTPS缓存。实际上，只要在HTTP头中使用特定命令，HTTPS是可以缓存的。Firefox默认只在内存中缓存HTTPS。但是，只要头命令中有Cache-Control: Public，缓存就会被写到硬盘上。 IE只要http头允许就可以缓存https内容，缓存策略与是否使用HTTPS协议无关。
 
 ## HTTPS和HTTP的区别
-- https协议需要到CA申请证书，一般免费证书很少，需要交费。
+- https协议需要到CA申请证书。
 - http是超文本传输协议，信息是明文传输；https 则是具有安全性的ssl加密传输协议。
 - http和https使用的是完全不同的连接方式，用的端口也不一样，前者是80，后者是443。
 - http的连接很简单，是无状态的；HTTPS协议是由SSL+HTTP协议构建的可进行加密传输、身份认证的网络协议，比http协议安全。
 
 > http默认使用80端口，https默认使用443端口
 
-下面就是https的整个架构，现在的https基本都使用TSL了，因为更加安全，所以下图中的SSL应该换为**SSL/TSL**。   
+下面就是https的整个架构，现在的https基本都使用TLS了，因为更加安全，所以下图中的SSL应该换为**SSL/TLS**。   
    
 ![Https层次结构](/img/https/https_01.png)
 
@@ -80,31 +81,31 @@ tags: [网络,Https,对称加密,非对称加密,SSL/TSL]
 > 
 1、2点是对伪造证书进行的，3是对于篡改后的证书验证，4是对于过期失效的验证。
 
-# SSL 与 TSL
+# SSL 与 TLS
 
 ## SSL (Secure Socket Layer，安全套接字层)
 SSL为Netscape所研发，用以保障在Internet上数据传输之安全，利用数据加密(Encryption)技术，可确保数据在网络上之传输过程中不会被截取，当前为3.0版本。
 
 SSL协议可分为两层： SSL记录协议（SSL Record Protocol）：它建立在可靠的传输协议（如TCP）之上，为高层协议提供数据封装、压缩、加密等基本功能的支持。 SSL握手协议（SSL Handshake Protocol）：它建立在SSL记录协议之上，用于在实际的数据传输开始前，通讯双方进行身份认证、协商加密算法、交换加密密钥等。
 
-## TSL (Transport Layer Security，传输层安全协议)
+## TLS (Transport Layer Security，传输层安全协议)
 用于两个应用程序之间提供保密性和数据完整性。
 TLS 1.0是IETF（Internet Engineering Task Force，Internet工程任务组）制定的一种新的协议，它建立在SSL 3.0协议规范之上，是SSL 3.0的后续版本，可以理解为SSL 3.1，它是写入了 RFC 的。该协议由两层组成： TLS 记录协议（TLS Record）和 TLS 握手协议（TLS Handshake）。较低的层为 TLS 记录协议，位于某个可靠的传输协议（例如 TCP）上面。
 
-## SSL/TSL协议作用：
+## SSL/TLS协议作用：
 - 认证用户和服务器，确保数据发送到正确的客户机和服务器；  
 - 加密数据以防止数据中途被窃取；  
 - 维护数据的完整性，确保数据在传输过程中不被改变。
 
-## TSL比SSL的优势 
+## TLS比SSL的优势 
 1.  对于消息认证使用密钥散列法：TLS 使用“消息认证代码的密钥散列法”（HMAC），当记录在开放的网络（如因特网）上传送时，该代码确保记录不会被变更。SSLv3.0还提供键控消息认证，但HMAC比SSLv3.0使用的（消息认证代码）MAC 功能更安全。
 2.  增强的伪随机功能（PRF）：PRF生成密钥数据。在TLS中，HMAC定义PRF。PRF使用两种散列算法保证其安全性。如果任一算法暴露了，只要第二种算法未暴露，则数据仍然是安全的。
 3.  改进的已完成消息验证：TLS和SSLv3.0都对两个端点提供已完成的消息，该消息认证交换的消息没有被变更。然而，TLS将此已完成消息基于PRF和HMAC值之上，这也比SSLv3.0更安全。
 4.  一致证书处理：与SSLv3.0不同，TLS试图指定必须在TLS之间实现交换的证书类型。
 5. 特定警报消息：TLS提供更多的特定和附加警报，以指示任一会话端点检测到的问题。TLS还对何时应该发送某些警报进行记录。
 
-## SSL、TSL的握手过程
-SSL与TSL握手整个过程如下图所示，下面会详细介绍每一步的具体内容：  
+## SSL、TLS的握手过程
+SSL与TLS握手整个过程如下图所示，下面会详细介绍每一步的具体内容：  
   
 ![https握手流程图](/img/https/https_02.png)
 
@@ -163,7 +164,7 @@ session ID的思想很简单，就是每一次对话都有一个编号（session
 > 目前只有Firefox和Chrome浏览器支持。
 
 # 总结
-https实际就是在TCP层与http层之间加入了SSL/TSL来为上层的安全保驾护航，主要用到对称加密、非对称加密、证书，等技术进行客户端与服务器的数据加密传输，最终达到保证整个通信的安全性。
+https实际就是在TCP层与http层之间加入了SSL/TLS来为上层的安全保驾护航，主要用到对称加密、非对称加密、证书，等技术进行客户端与服务器的数据加密传输，最终达到保证整个通信的安全性。
 
 > **参考文章**   
 [数字证书的基础知识](http://www.enkichen.com/2016/02/26/digital-certificate-based/)
