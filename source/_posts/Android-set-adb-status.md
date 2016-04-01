@@ -1,4 +1,4 @@
-title: Androi系统设置Android adb 开关的方法  
+title: Android系统设置Android adb 开关的方法  
 date: 2015-11-24 17:38:26  
 categories: Android   
 tags: [Android,Android系统]
