@@ -14,11 +14,11 @@ tags: [Android应用]
 ### 在PopupWindow中的EditText不能获取焦点，显示键盘
 * **原因：**
 原因为Popupwindow 默认没有获取到焦点，需要手动设置焦点，这样子view才能获取到事件的监听。
-  
+
 * **解决办法：**
 在创建完popwindow后设置他的焦点，`popupWindow.setFocusable(true);  `就可以了。
- <!-- more --> 
- 
+ <!-- more -->
+
 ###  Popupwindow默认在区域外点击不消失
 * **原因：**   
 据说这是个PopupWindow的Bug，但也不确定是不是Popupwindow故意这样设计的，对于点击不想消失的提供了一个方法。  
